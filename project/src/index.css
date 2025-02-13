@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-black text-white;
+  }
+}
+
+.gradient-text {
+  @apply bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent;
+}
+
+.nav-link {
+  @apply text-gray-300 hover:text-white transition-colors duration-200;
+}
+
+.primary-button {
+  @apply px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-lg 
+         hover:opacity-90 transition-opacity duration-200 font-medium;
+}
+
+.secondary-button {
+  @apply px-6 py-3 bg-white text-black rounded-lg 
+         hover:opacity-90 transition-opacity duration-200 font-medium;
+}
