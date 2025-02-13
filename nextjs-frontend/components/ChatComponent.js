@@ -8,15 +8,13 @@ export default function ChatComponent() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
-    let isMounted = true; // ✅ Prevents setting state on unmounted component
-
     const startSession = async () => {
       try {
         const res = await fetch(`${API_URL}/chat/start-session`, { method: "POST" });
         const data = await res.json();
-        if (data.session_id && isMounted) {
+        if (data.session_id) {
           setSessionId(data.session_id);
-          connectWebSocket(data.session_id);  // ✅ Only connect WebSocket after session is set
+          connectWebSocket(data.session_id);
         }
       } catch (error) {
         console.error("Error starting chat session:", error);
@@ -24,17 +22,10 @@ export default function ChatComponent() {
     };
 
     startSession();
-
-    return () => {
-      isMounted = false; // ✅ Cleanup on unmount
-      if (socketRef.current) {
-        socketRef.current.close(); // ✅ Close WebSocket on component unmount
-      }
-    };
-  }, []); // ✅ Run only once on mount
+  }, []);
 
   const connectWebSocket = (session_id) => {
-    if (!session_id || socketRef.current) return; // ✅ Prevent duplicate connections
+    if (!session_id || socketRef.current) return;
     socketRef.current = new WebSocket(`ws://127.0.0.1:8000/api/v1/chat/ws/${session_id}`);
 
     socketRef.current.onmessage = (event) => {
@@ -43,7 +34,7 @@ export default function ChatComponent() {
       setMessages((prev) => {
         return prev.map((msg, index) =>
           index === prev.length - 1 && msg.bot === "..."
-            ? { ...msg, bot: Array.isArray(data.bot) ? data.bot.join(" ") : data.bot } // ✅ Replace placeholder with real response
+            ? { ...msg, bot: data.bot } // ✅ Replace "..." with real response
             : msg
         );
       });
@@ -51,18 +42,16 @@ export default function ChatComponent() {
 
     socketRef.current.onclose = () => {
       console.warn("WebSocket disconnected.");
-      socketRef.current = null; // ✅ Allow reconnecting if needed
+      socketRef.current = null;
     };
   };
 
   const sendMessage = () => {
     if (!inputText.trim() || !socketRef.current) return;
-    
-    // ✅ Add user message with a placeholder bot response
-    setMessages((prev) => [...prev, { user: inputText, bot: "..." }]);
 
+    setMessages((prev) => [...prev, { user: inputText, bot: "..." }]); // ✅ Temporary response
     socketRef.current.send(inputText);
-    setInputText(""); // Clear input field
+    setInputText("");
   };
 
   return (
@@ -72,7 +61,7 @@ export default function ChatComponent() {
         {messages.map((msg, index) => (
           <div key={index} className="mb-2">
             <p className="text-blue-600 font-medium">You: {msg.user}</p>
-            <p className="text-gray-800">AI: {msg.bot}</p> {/* ✅ FIXED */}
+            <p className="text-gray-800">AI: {msg.bot}</p>
           </div>
         ))}
       </div>
