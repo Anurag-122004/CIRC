@@ -14,14 +14,8 @@ class GeminiHandler:
         self.chat_sessions = {}
 
     def get_response(self, input_text: str = None, image_bytes: bytes = None):
-        # Ensure the request has at least a text input
-        # if not input_text:
-        #     raise ValueError("Input text is required for Gemini API")
-
-        # Process image if provided
         image = Image.open(io.BytesIO(image_bytes)) if image_bytes else None
 
-        # Send appropriate request based on input type
         if image:
             response = self.model.generate_content([input_text, image])
         else:
@@ -30,11 +24,13 @@ class GeminiHandler:
         return response.text
 
     def start_chat_session(self, session_id: str):
-        self.chat_sessions[session_id] = self.model.start_chat(history=[])
+        if session_id not in self.chat_sessions:
+            self.chat_sessions[session_id] = self.model.start_chat(history=[])
+        return session_id  # ✅ Ensure the session ID is returned
 
     def chat_response(self, session_id: str, input_text: str = None, image_bytes: bytes = None):
         if session_id not in self.chat_sessions:
-            raise ValueError("Invalid session ID")
+            self.start_chat_session(session_id)  # ✅ Auto-create session if missing
 
         chat = self.chat_sessions[session_id]
         image = Image.open(io.BytesIO(image_bytes)) if image_bytes else None
