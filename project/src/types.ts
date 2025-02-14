@@ -11,3 +11,12 @@ export interface VisionAnalysis {
     analysis: string;
     timestamp: Date;
 }
+
+ export interface ChatSession {
+    id: string;
+    title: string;
+    messages: Message[];
+    imageData: VisionAnalysis | null;
+    timestamp: Date;
+    lastMessage?: string;
+  }

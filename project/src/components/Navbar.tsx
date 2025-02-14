@@ -10,7 +10,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <FileText className="w-8 h-8 text-pink-500" />
             <span className="ml-2 text-xl font-bold">
-              <Link to="/" className="nav-link">Research AI</Link> {/* Use Link component for routing */}
+              <Link to="/" className="nav-link">CIRC</Link> {/* Use Link component for routing */}
             </span>
           </div>
 
