@@ -5,3 +5,6 @@ motor
 pydantic
 pydantic-settings
 google-generativeai
+dotenv
+typing
+PIL
