@@ -28,7 +28,7 @@ const Hero = () => {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link to="/vision" className="primary-button">
-          Visiualize Now
+          Visualize Now
           </Link>
           <button className="secondary-button">
             Learn More

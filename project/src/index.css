@@ -1,21 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%; /* Define a custom border color */
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+
   body {
     @apply bg-black text-white;
   }
+
+  * {
+    border-color: hsl(var(--border)); /* ✅ Apply border color */
+  }
 }
 
+/* Drag & Drop Zone */
+.file-drop-zone {
+  @apply relative overflow-hidden transition-all duration-300 border-2 border-dashed border-gray-600 rounded-lg p-6 text-center;
+}
+
+.file-drop-zone:hover {
+  @apply border-gray-400 bg-white/10;
+}
+
+/* Loading Animation */
+.file-drop-zone::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.loading-icon {
+  animation: icon-pop 0.5s ease-out forwards;
+}
+
+@keyframes icon-pop {
+  0% {
+    transform: scale(0) translateY(10px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2) translateY(0);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.loading-icon:nth-child(1) { animation-delay: 0s; }
+.loading-icon:nth-child(2) { animation-delay: 0.2s; }
+.loading-icon:nth-child(3) { animation-delay: 0.4s; }
+
+/* File Preview */
+.file-preview-enter {
+  animation: file-drop 0.3s ease-out;
+}
+
+@keyframes file-drop {
+  0% { opacity: 0; transform: translateY(-10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Glass Card */
+.glass-card {
+  @apply bg-black/20 backdrop-blur-xl border border-white/10 shadow-lg p-4 rounded-lg;
+}
+
+/* Gradient Text */
 .gradient-text {
   @apply bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent;
 }
 
+/* Navigation Link */
 .nav-link {
   @apply text-gray-300 hover:text-white transition-colors duration-200;
 }
 
+/* Buttons */
 .primary-button {
   @apply px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-lg 
          hover:opacity-90 transition-opacity duration-200 font-medium;
