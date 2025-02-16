@@ -31,4 +31,5 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
             await save_message(session_id, input_text, response)  # ✅ Store in DB
             await websocket.send_json({"user": input_text, "bot": response})
     except WebSocketDisconnect:
-        del active_connections[session_id]
+        if session_id in active_connections:
+            del active_connections[session_id]
