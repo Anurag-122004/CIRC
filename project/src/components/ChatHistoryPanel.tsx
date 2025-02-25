@@ -88,7 +88,8 @@ interface ChatHistoryPanelProps {
                     <div className="text-xs opacity-60 mt-1">
                         {new Date(session.timestamp).toLocaleDateString()}
                     </div>
-                    </button>
+                    </button> 
+                    // edited
                 ))}
                 </div>
             )}
