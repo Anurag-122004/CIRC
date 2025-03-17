@@ -31,7 +31,7 @@ const Hero = () => {
           Visualize Now
           </Link>
           <button className="secondary-button">
-            Learn More
+            Learn Everything
           </button>
         </div>
       </div>
